@@ -1,0 +1,11 @@
+runfile('C:/Users/zjant/Documents/assignment2_lm.py', wdir='C:/Users/zjant/Documents')
+SSE of model 1: 0.24
+SSE of model 2: 0.19
+ASE of model 1: 0.048
+ASE of model 2: 0.038
+R2 of model 1: 0.976
+R2 of model 2: 0.981
+MAPE of model 1: 4.52 %
+MAPE of model 2: 4.42 %
+MAE of model 1: 0.2
+MAE of model 2: 0.18
