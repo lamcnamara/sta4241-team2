@@ -86,7 +86,7 @@ xres = problem3data['SalePrice']
 yres = problem3data['resids']
 # Render residuals plot
 plt.style.use("seaborn-darkgrid")
-plt.scatter(x=xres, y=yres, marker="o", s=10, color="#08787f", zorder=2)
+plt.scatter(x=xres, y=yres, marker="o", s=10, color="#08787f", zorder=2, label="")
 plt.title("SalePrice Residuals")
 plt.xlabel("SalePrice")
 plt.ylabel("Residuals")
@@ -94,5 +94,6 @@ plt.axhline(y=0, color="#ee2244", linestyle="--", alpha=0.7, linewidth=0.9)
 plt.xticks(rotation=45)
 # Make loess line
 yloess = lowess(yres, xres, frac=0.6/3.0)
-plt.plot(yloess[ :,0], yloess[ :,1], color="#ff5b00", linewidth=2, alpha=0.9)
+plt.plot(yloess[ :,0], yloess[ :,1], color="#ff5b00", label="Loess", linewidth=2, alpha=0.9)
+plt.legend(loc="upper right")
 plt.show()
