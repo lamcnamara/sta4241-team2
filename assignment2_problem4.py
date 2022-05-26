@@ -3,7 +3,7 @@ Author: Team 2, STA4241 Summer 2022
 Name: assignment2_problem4.py (STA 4241 - Assignment #2B)
 Date: 27 May 2022
 Description: Problems 4.1-4.5 code, answers, and plot.
-May 25 update: Problems 4.1-4.2, 4.4-4.5.
+May 26 update: Problems 4.1-4.2, 4.4-4.5.
 """
 
 import pandas as pd
@@ -26,10 +26,10 @@ def cmatrix_cutoff(df, actual, predictp, cutoff=0.5, places=3):
     mat.T = mat.Total = df.shape[0]
     mat.P = mat.Pos = df[(df[actual] == 1)].shape[0]
     mat.N = mat.Neg = df[(df[actual] == 0)].shape[0]
-    mat.TP = mat.truepositive = df[((df[actual] == 1) & (df[predictp] < cutoff))].shape[0]
-    mat.FP = mat.falsepositive = df[((df[actual] == 0) & (df[predictp] < cutoff))].shape[0]
-    mat.TN = mat.truenegative = df[((df[actual] == 0) & (df[predictp] >= cutoff))].shape[0]
-    mat.FN = mat.falsenegative = df[((df[actual] == 1) & (df[predictp] >= cutoff))].shape[0]
+    mat.TP = mat.truepositive = df[((df[actual] == 1) & (df[predictp] > cutoff))].shape[0]
+    mat.FP = mat.falsepositive = df[((df[actual] == 0) & (df[predictp] > cutoff))].shape[0]
+    mat.TN = mat.truenegative = df[((df[actual] == 0) & (df[predictp] <= cutoff))].shape[0]
+    mat.FN = mat.falsenegative = df[((df[actual] == 1) & (df[predictp] <= cutoff))].shape[0]
     mat.tpr = mat.recall = mat.sensitivity = round(mat.TP/(mat.TP+mat.FN), places)
     mat.tnr = mat.specificity = round(mat.TN/(mat.TN+mat.FP), places)
     mat.fnr = round(mat.FN/(mat.FN+mat.TP), places)
@@ -62,14 +62,29 @@ r10curve = pd.DataFrame(rcurve)
 for i in range(1,11):
     part=i/10.
     tm = cmatrix_cutoff(p4data, "HasDetections", "P_HasDetections", cutoff=part)
-    r10curve=r10curve.append({'x':tm.tpr,'y':tm.fpr}, ignore_index=True)
+    r10curve=r10curve.append({'x':tm.fpr,'y':tm.tpr}, ignore_index=True)
+plt.style.use("seaborn-darkgrid")
+plt.plot([0, 1], [0, 1], linestyle="dashed", color="#666666", alpha=0.6, label="Random")
+plt.plot(r10curve['x'], r10curve['y'], color="#dd3b00", zorder=2, label="Model")
+plt.scatter(r10curve['x'], r10curve['y'], color="#dd3b00", s=25, marker="o", label="", zorder=3)
+plt.title("ROC curve, decile level")
+plt.xlabel("False alarm rate (1 - Specificity)")
+plt.ylabel("Sensitivity (TPR)")
+plt.legend(loc="lower right", facecolor="white", framealpha=0.6, frameon=1)
+plt.show()
 
 # Problem 4.5
 r5curve = pd.DataFrame(rcurve)
 for i in range(1,21):
     part=i/20.
     tm = cmatrix_cutoff(p4data, "HasDetections", "P_HasDetections", cutoff=part)
-    r5curve=r5curve.append({'x':tm.tpr,'y':tm.fpr}, ignore_index=True)
-
-plt.plot(r5curve['x'], r5curve['y'])
+    r5curve=r5curve.append({'x':tm.fpr,'y':tm.tpr}, ignore_index=True)
+plt.style.use("seaborn-darkgrid")
+plt.plot([0, 1], [0, 1], linestyle="dashed", color="#666666", alpha=0.6, label="Random")
+plt.plot(r5curve['x'], r5curve['y'], color="#dd3b00", zorder=2, label="Model")
+plt.scatter(r5curve['x'], r5curve['y'], color="#dd3b00", s=25, marker="o", label="", zorder=3)
+plt.title("ROC curve, five percent level")
+plt.xlabel("False alarm rate (1 - Specificity)")
+plt.ylabel("Sensitivity (TPR)")
+plt.legend(loc="lower right", facecolor="white", framealpha=0.6, frameon=1)
 plt.show()
