@@ -3,7 +3,6 @@ Author: Team 2, STA4241 Summer 2022
 Name: assignment2_problem4.py (STA 4241 - Assignment #2B)
 Date: 27 May 2022
 Description: Problems 4.1-4.5 code, answers, and plot.
-May 26 update: Problems 4.1-4.2, 4.4-4.5.
 """
 
 import pandas as pd
@@ -13,6 +12,7 @@ import matplotlib.pyplot as plt
 matplotlib.rcParams["figure.dpi"] = 150
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+import sklearn.metrics
 
 # Problem 4.1
 filename = "C:/Users/zjant/Downloads/Microsoft_Results.csv"
@@ -54,7 +54,30 @@ print("Specificity:\t\t", ex_p42.specificity)
 print("Accuracy:\t\t\t", ex_p42.accuracy)
 print("Precision:\t\t\t", ex_p42.precision)
 
-# Problem 4.3: AUC, Gini
+"""Should output:
+--- Confusion Matrix ---
+Cutoff probability:	 0.7
+True positives:		 84108
+False positives:	 14959
+True negatives:		 486040
+False negatives:	 414893
+Sensitivity:		 0.169
+Specificity:		 0.97
+Accuracy:			 0.57
+Precision:			 0.849
+"""
+
+# Problem 4.3
+p4auc = sklearn.metrics.roc_auc_score(p4data["HasDetections"], p4data["P_HasDetections"])
+p4gini = 2 * (p4auc - 0.5)
+print("AUC:", round(p4auc, 3))
+print("Gini coefficient:", round(p4gini, 3))
+
+"""Should output:
+AUC: 0.694
+Gini coefficient: 0.388
+  
+"""
 
 # Problem 4.4
 rcurve = {'x':[],'y':[]}
