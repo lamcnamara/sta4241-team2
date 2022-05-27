@@ -76,7 +76,6 @@ print("Gini coefficient:", round(p4gini, 3))
 """Should output:
 AUC: 0.694
 Gini coefficient: 0.388
-  
 """
 
 # Problem 4.4
